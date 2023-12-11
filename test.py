@@ -56,9 +56,9 @@ class Entertainment_Info:
 
         for row in csv_reader:
             print(row)
-
 import csv
 from geopy.distance import geodesic
+from math import inf
 """"
 
 try exception 구문 별로 잘못됐을 때 보강 하는 거 짜기
@@ -173,39 +173,48 @@ if __name__ == "__main__":
                 
                 distance_bet_places[place_now] = dist_candidate
 
-            candidate_for_appending_Full_course = [ ["A",-1],["B",-1],["C",-1],["D",-1],["E",-1],["F",-1],["G",-1],["H",-1],["I",-1],["J",-1]]
+            candidate_for_appending_Full_course = [ [["A","a"],inf],[["B","b"],inf],[["C","c"],inf],[["D","d"],inf],[["E","e"],inf],[["F","f"],inf],[["G","g"],inf],[["H","h"],inf],[["I","i"],inf],[["J","j"],inf]]
             for place in distance_bet_places:
-                present_place, next_places = place.items()
+                present_place, next_places = (place, distance_bet_places[place])
                 if cnt ==1:
-                    for idx in range(10):
-                        if(candidate.value()<candidate_for_appending_Full_course[idx][-1]):
-                            if idx<10:
-                                candidate_for_appending_Full_course[idx+1] = candidate_for_appending_Full_course[idx]
-
-                            candidate_for_appending_Full_course[idx] = [str(list(candidate.keys())),candidate.values()]
-                            break
-
-                    for i in range(5):
-                        Full_course_candidates[i] = candidate_for_appending_Full_course[i]
-
-                elif present_place == Full_course_candidates[0][-1]:
-
                     for candidate in next_places:
                         for idx in range(10):
-                            if(candidate.value()<candidate_for_appending_Full_course[idx][-1]):
-                                if idx<10:
+                            if(next_places[candidate]<candidate_for_appending_Full_course[idx][-1]):
+                                if idx<9:
                                     candidate_for_appending_Full_course[idx+1] = candidate_for_appending_Full_course[idx]
-
-                                candidate_for_appending_Full_course[idx] = [str(list(candidate.keys())),candidate.values()]
+                                
+                                candidate_for_appending_Full_course[idx][0][0] = present_place
+                                candidate_for_appending_Full_course[idx][0][1] = candidate
+                                candidate_for_appending_Full_course[idx][-1] = next_places[candidate]
                                 break
+                        
 
-                    for CANDIDATE in candidate_for_appending_Full_course:
-                        for index in range(5):
-                            if Full_course_candidates[index][0][-1] in CANDIDATE:
-                                Full_course_candidates[index][0].append(CANDIDATE[0])
-                                Full_course_candidates[index][1] += CANDIDATE[1]
+                    for i in range(5):
+                        Full_course_candidates[i][0] = candidate_for_appending_Full_course[i][0]
+                        Full_course_candidates[i][1] = candidate_for_appending_Full_course[i][1]
+
+                for i in range(5):
+                    if cnt>1 and present_place == Full_course_candidates[i][0][cnt-1]:
+
+                        for candidate in next_places:
+                            for idx in range(10):
+                                if(next_places[candidate]<candidate_for_appending_Full_course[idx][-1]):
+                                    if idx<9:
+                                        candidate_for_appending_Full_course[idx+1] = candidate_for_appending_Full_course[idx]
+
+                                    candidate_for_appending_Full_course[idx][0][0] = present_place
+                                    candidate_for_appending_Full_course[idx][0][1] = candidate
+                                    candidate_for_appending_Full_course[idx][-1] = next_places[candidate]
+                                    break
+
+                        for CANDIDATE in candidate_for_appending_Full_course:
+                            for index in range(5):
+                                if Full_course_candidates[index][0][-1] in CANDIDATE[0][0] and CANDIDATE[0][1] not in Full_course_candidates[index][0][:-1]:
+                                    Full_course_candidates[index][0].append(CANDIDATE[0][1])
+                                    Full_course_candidates[index][1] += CANDIDATE[1]
 
             cnt += 1
+            now = Next
 
         print(Full_course_candidates) #테스트용
 
