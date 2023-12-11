@@ -89,7 +89,7 @@ def make_Full_course(i,distance_bet_places,Full_course_candidates):
 
         for path in Full_course_candidates:
             for sub_path in l:
-                if sub_path[0][0]==path[0][-1]:
+                if sub_path[0][0]==path[0][-1] and sub_path[0][1] not in path[0]:
                     path[0].append(sub_path[0][1])
                     path[1] += sub_path[1]
             
@@ -124,63 +124,57 @@ if __name__ == "__main__":
         file_path_cafe = 'Place_cafe.csv'
         file_path_doing_fun = 'Place_doing_fun.csv'
 
-        num = 0
 
-        if "식사" in separted_date:
-            food_type = input("원하는 음식 종류를 입력해주세요.(space bar가 포함되면 안 됩니다.)(선택지 : 한식, 양식, 중식, 일식)\nex)양식")
-            price_limit = int(input("음식 평균 가격 상한선을 입력해주세요(space bar가 포함되면 안 됩니다.)\nex)30000"))
-            Restaurants = list()
+        food_type = input("원하는 음식 종류를 입력해주세요.(space bar가 포함되면 안 됩니다.)(선택지 : 한식, 양식, 중식, 일식)\nex)양식")
+        price_limit = int(input("음식 평균 가격 상한선을 입력해주세요(space bar가 포함되면 안 됩니다.)\nex)30000"))
+        Restaurants = list()
 
-            with open(file_path_food, newline='') as csvfile:
-                Collection_restaurant = csv.reader(csvfile)
-                Collection_restaurant.__next__()
-                for info in Collection_restaurant:
-                    
-                    info[1] = info[1].split(',')
-                    info[1] = (float(info[1][0]), float(info[1][1]))
-                    Restaurants.append(Restaurant(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7],info[8]))
-                    
-            num +=1
+        with open(file_path_food, newline='') as csvfile:
+            Collection_restaurant = csv.reader(csvfile)
+            Collection_restaurant.__next__()
+            for info in Collection_restaurant: 
+                info[1] = info[1].split(',')
+                info[1] = (float(info[1][0]), float(info[1][1]))
+                Restaurants.append(Restaurant(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7],info[8]))
                     
         
         
-        if "놀거리" in separted_date:
-            p = input("주차 필요하신가요?(선택지 : Yes or No)\nex)Yes")
-            if p == "Yes":
-                parking_available = True
-            else:
-                parking_available = False
-            Doing_funs = list()
 
-            with open(file_path_doing_fun, newline='') as csvfile:
-                Collection_doing_fun = csv.reader(csvfile)
-                Collection_doing_fun.__next__()
-                for info in Collection_doing_fun:
-                    info[1] = info[1].split(',')
-                    info[1] = (float(info[1][0]), float(info[1][1]))
-                    Doing_funs.append(Entertainments(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7]))
-            num +=1
+        p = input("주차 필요하신가요?(선택지 : Yes or No)\nex)Yes")
+        if p == "Yes":
+            parking_available = True
+        else:
+            parking_available = False
+        Doing_funs = list()
 
-        if "카페" in separted_date:
-            p = input("커피 못 드시나요?(선택지 : Yes or No)\nex)Yes")
-            if p == "Yes":
-                coffee = False
-            else:
-                coffee = True
-            Cafes = list()
+        with open(file_path_doing_fun, newline='') as csvfile:
+            Collection_doing_fun = csv.reader(csvfile)
+            Collection_doing_fun.__next__()
+            for info in Collection_doing_fun:
+                info[1] = info[1].split(',')
+                info[1] = (float(info[1][0]), float(info[1][1]))
+                Doing_funs.append(Entertainments(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7]))
 
-            with open(file_path_cafe, newline='') as csvfile:
-                Collection_cafe = csv.reader(csvfile)
-                Collection_cafe.__next__()
-                for info in Collection_cafe:
-                    info[1] = info[1].split(',')
-                    info[1] = (float(info[1][0]), float(info[1][1]))
-                    Cafes.append(Cafe(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7]))
-            num +=1
+
+        p = input("커피 못 드시나요?(선택지 : Yes or No)\nex)Yes")
+        if p == "Yes":
+            coffee = False
+        else:
+            coffee = True
+        Cafes = list()
+
+        with open(file_path_cafe, newline='') as csvfile:
+            Collection_cafe = csv.reader(csvfile)
+            Collection_cafe.__next__()
+            for info in Collection_cafe:
+                info[1] = info[1].split(',')
+                info[1] = (float(info[1][0]), float(info[1][1]))
+                Cafes.append(Cafe(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7]))
 
         # Full_course_candidates = [ [["A","a"],inf],[["B","b"],inf],[["C","c"],inf],[["D","d"],inf],[["E","e"],inf]]
         Full_course_candidates =list()
-
+        num = len(separted_date)
+        
         if num>1:
             dist_from_food_to_cafe = dict()
             dist_from_food_to_doing_fun = dict()
