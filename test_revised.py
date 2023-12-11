@@ -56,6 +56,55 @@ class Entertainment_Info:
 
         for row in csv_reader:
             print(row)
+            
+
+def make_Full_course(i,distance_bet_places,Full_course_candidates):
+    l = list()
+    if i ==0:
+        for place in distance_bet_places:
+            present_place, next_places = (place, distance_bet_places[place])
+            for candidate in next_places:         
+                for candidate in next_places:
+                    if next_places[candidate] != 0:
+                        l.append([[present_place,candidate],next_places[candidate]])
+
+        l.sort(key=lambda x: x[1])
+        idx = 1
+        var = l[0][0][0]
+        while len(Full_course_candidates)<5:
+            if l[idx][0][0] != var:
+                Full_course_candidates.append(l[idx])
+                var = l[idx][0][0]
+            idx +=1
+
+
+    else:
+        for place in distance_bet_places:
+            present_place, next_places = (place, distance_bet_places[place])
+            for path in Full_course_candidates:
+                for candidate in next_places:
+                    if path[0][-1] == present_place:
+                        l.append([[present_place,candidate],next_places[candidate]])
+        l.sort(key=lambda x: x[1])
+
+        for path in Full_course_candidates:
+            for sub_path in l:
+                if sub_path[0][0]==path[0][-1]:
+                    path[0].append(sub_path[0][1])
+                    path[1] += sub_path[1]
+            
+    return Full_course_candidates
+
+def distance_bet_places(Collection_place_now,Collection_place_next):
+    distance_bet_places = dict()
+    for place_now in Collection_place_now:
+        dist_candidate = dict()
+        for place_next in Collection_place_next:
+            dist_candidate[place_next] = geodesic(Collection_place_now[place_now],Collection_place_next[place_next]).meters
+        distance_bet_places[place_now] = dist_candidate
+
+    return distance_bet_places
+
 import csv
 from geopy.distance import geodesic
 from math import inf
@@ -129,7 +178,8 @@ if __name__ == "__main__":
                     Cafes.append(Cafe(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7]))
             num +=1
 
-        Full_course_candidates = [ [["A","a"],inf],[["B","b"],inf],[["C","c"],inf],[["D","d"],inf],[["E","e"],inf]]
+        # Full_course_candidates = [ [["A","a"],inf],[["B","b"],inf],[["C","c"],inf],[["D","d"],inf],[["E","e"],inf]]
+        Full_course_candidates =list()
 
         if num>1:
             dist_from_food_to_cafe = dict()
@@ -144,6 +194,41 @@ if __name__ == "__main__":
             dist_from_doing_fun_to_cafe = dict()
             dist_from_doing_fun_to_doing_fun = dict()
 
+
+            for i in [Restaurants, Cafes, Doing_funs]:
+                for j in [Restaurants, Cafes, Doing_funs]:
+                    Collection_place_now = dict()
+                    Collection_place_next = dict()
+
+                    for places_now in i:
+                        Collection_place_now[places_now.name] = places_now.location
+                    for places_next in j:
+                        Collection_place_next[places_next.name] = places_next.location
+
+                    if i == Restaurants:
+                        if j == Restaurants:
+                            dist_from_food_to_food = distance_bet_places(Collection_place_now,Collection_place_next)
+                        if j == Cafes:
+                            dist_from_food_to_cafe = distance_bet_places(Collection_place_now,Collection_place_next)
+                        if j == Doing_funs:
+                            dist_from_food_to_doing_fun = distance_bet_places(Collection_place_now,Collection_place_next)
+
+                    if i == Cafes:
+                        if j == Restaurants:
+                            dist_from_cafe_to_food = distance_bet_places(Collection_place_now,Collection_place_next)
+                        if j == Cafes:
+                            dist_from_cafe_to_cafe = distance_bet_places(Collection_place_now,Collection_place_next)
+                        if j == Doing_funs:
+                            dist_from_cafe_to_doing_fun = distance_bet_places(Collection_place_now,Collection_place_next)
+                    if i == Doing_funs:
+                        if j == Restaurants:
+                            dist_from_doing_fun_to_food = distance_bet_places(Collection_place_now,Collection_place_next)
+                        if j == Cafes:
+                            dist_from_doing_fun_to_cafe = distance_bet_places(Collection_place_now,Collection_place_next)
+                        if j == Doing_funs:
+                            dist_from_doing_fun_to_doing_fun = distance_bet_places(Collection_place_now,Collection_place_next)
+
+
             for i in range(len(separted_date)-1):
                 Collection_place_now = dict()
                 Collection_place_next = dict()
@@ -152,104 +237,37 @@ if __name__ == "__main__":
                     case "식사":
                         match separted_date[i+1]:
                             case "식사":
-                                for place_now in Restaurants:
-                                    Collection_place_now[place_now.name] = place_now.location
-                                for place_next in Restaurants:
-                                    Collection_place_next[place_next.name] = place_next.location
-                                
+                                Full_course_candidates = make_Full_course(i,dist_from_food_to_food,Full_course_candidates)
                             case "카페":
-                                for place_now in Restaurants:
-                                    Collection_place_now[place_now.name] = place_now.location
-                                for place_next in Cafes:
-                                    Collection_place_next[place_next.name] = place_next.location
+                                Full_course_candidates = make_Full_course(i,dist_from_food_to_cafe,Full_course_candidates)
                             case "놀거리":
-                                for place_now in Restaurants:
-                                    Collection_place_now[place_now.name] = place_now.location
-                                for place_next in Doing_funs:
-                                    Collection_place_next[place_next.name] = place_next.location
+                                Full_course_candidates = make_Full_course(i,dist_from_food_to_doing_fun,Full_course_candidates)
 
                     case "카페":
                         match separted_date[i+1]:
                             case "식사":
-                                for place_now in Cafes:
-                                    Collection_place_now[place_now.name] = place_now.location
-                                for place_next in Restaurants:
-                                    Collection_place_next[place_next.name] = place_next.location
+                                Full_course_candidates = make_Full_course(i,dist_from_cafe_to_food,Full_course_candidates)
                             case "카페":
-                                for place_now in Cafes:
-                                    Collection_place_now[place_now.name] = place_now.location
-                                for place_next in Cafes:
-                                    Collection_place_next[place_next.name] = place_next.location
+                                Full_course_candidates = make_Full_course(i,dist_from_cafe_to_cafe,Full_course_candidates)
                             case "놀거리":
-                                for place_now in Cafes:
-                                    Collection_place_now[place_now.name] = place_now.location
-                                for place_next in Doing_funs:
-                                    Collection_place_next[place_next.name] = place_next.location
+                                Full_course_candidates = make_Full_course(i,dist_from_cafe_to_doing_fun,Full_course_candidates)
 
                     case "놀거리":
                         match separted_date[i+1]:
                             case "식사":
-                                for place_now in Doing_funs:
-                                    Collection_place_now[place_now.name] = place_now.location
-                                for place_next in Restaurants:
-                                    Collection_place_next[place_next.name] = place_next.location
+                                Full_course_candidates = make_Full_course(i,dist_from_doing_fun_to_food,Full_course_candidates)
                             case "카페":
-                                for place_now in Doing_funs:
-                                    Collection_place_now[place_now.name] = place_now.location
-                                for place_next in Cafes:
-                                    Collection_place_next[place_next.name] = place_next.location
+                                Full_course_candidates = make_Full_course(i,dist_from_doing_fun_to_cafe,Full_course_candidates)
                             case "놀거리":
-                                for place_now in Doing_funs:
-                                    Collection_place_now[place_now.name] = place_now.location
-                                for place_next in Doing_funs:
-                                    Collection_place_next[place_next.name] = place_next.location
+                                Full_course_candidates = make_Full_course(i,dist_from_doing_fun_to_doing_fun,Full_course_candidates)
 
+                print("done")
 
-                distance_bet_places = dict()
-                for place_now in Collection_place_now:
-                    dist_candidate = dict()
-                    for place_next in Collection_place_next:
-                        dist_candidate[place_next] = geodesic(Collection_place_now[place_now],Collection_place_next[place_next]).meters
-
-                    distance_bet_places[place_now] = dist_candidate
+            print(Full_course_candidates)
+            command = input("다시 시작하기를 원하신다면 '시작'을, 종료를 원하신다면 '종료'를 입력해주세요! \n ex)종료")
+        else:
+            print("한 개 이상의 장소를 입력하셔야합니다!")
                 
-                for place in distance_bet_places:
-                    present_place, next_places = (place, distance_bet_places[place])
-                    if i ==0:
-                        for candidate in next_places:
-                            for idx in range(5):
-                                if(next_places[candidate]<Full_course_candidates[idx][-1]):
-                                    if idx<4:
-                                        Full_course_candidates[idx+1] = Full_course_candidates[idx]
-                                    
-                                    Full_course_candidates[idx][0][0] = present_place
-                                    Full_course_candidates[idx][0][1] = candidate
-                                    Full_course_candidates[idx][-1] = next_places[candidate]
-                                    break
 
 
-                    else:
-                        candidate_for_appending_Full_course = [ [["A","a"],inf],[["B","b"],inf],[["C","c"],inf],[["D","d"],inf],[["E","e"],inf],[["F","f"],inf],[["G","g"],inf],[["H","h"],inf],[["I","i"],inf],[["J","j"],inf]]
-                        
-                        for index in range(5):
-                            if present_place == Full_course_candidates[index][0][-1]:
-                                for candidate in next_places:
-                                    for idx in range(10):
-                                        if(next_places[candidate]<candidate_for_appending_Full_course[idx][-1]):
-                                            if idx<9:
-                                                candidate_for_appending_Full_course[idx+1] = candidate_for_appending_Full_course[idx]
-
-                                            candidate_for_appending_Full_course[idx][0][0] = present_place
-                                            candidate_for_appending_Full_course[idx][0][1] = candidate
-                                            candidate_for_appending_Full_course[idx][-1] = next_places[candidate]
-                                            break
-                            
-                            for CANDIDATE in candidate_for_appending_Full_course:
-                                for index in range(5):
-                                    if Full_course_candidates[index][0][-1] in CANDIDATE[0][0] and CANDIDATE[0][1] not in Full_course_candidates[index][0][:-1]:
-                                        Full_course_candidates[index][0].append(CANDIDATE[0][1])
-                                        Full_course_candidates[index][1] += CANDIDATE[1]
-
-
-        print(Full_course_candidates)
-        command = input("다시 시작하기를 원하신다면 '시작'을, 종료를 원하신다면 '종료'를 입력해주세요! \n ex)종료")
+                
