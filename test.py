@@ -250,6 +250,14 @@ if __name__ == "__main__":
                                         Full_course_candidates[index][0].append(CANDIDATE[0][1])
                                         Full_course_candidates[index][1] += CANDIDATE[1]
 
+        for i in range(5):
+            Full_course_candidates[i][1] = Full_course_candidates[i][1]/50  #3km/h => 50m/s로 움직이는 것. 이에 기반하여, 거리를 시간으로 변경함.
+        df = pd.DataFrame(Full_course_candidates, columns=['데이트 코스','도보 3km/h로 \n이동 시, 총 경과시간'])
+        max_len = df['데이트 코스'].str.len().max()
+        df["데이트 코스"] = df["데이트 코스"].apply(' -> '.join)
+        df['데이트 코스'] = df["데이트 코스"].apply(lambda x: x.ljust(max_len))
+        html = df.to_html(classes='mystyle', index=False)
+        html = html.replace('<th>', '<th style="text-align: center;">', 1)
 
-        print(Full_course_candidates)
+        print(html)
         command = input("다시 시작하기를 원하신다면 '시작'을, 종료를 원하신다면 '종료'를 입력해주세요! \n ex)종료")

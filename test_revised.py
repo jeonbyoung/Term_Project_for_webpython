@@ -1,6 +1,9 @@
-import numpy as np
 import pandas as pd
 import csv
+from geopy.distance import geodesic
+from flask import Flask
+
+app = Flask(__name__)
 
 class Place:
 
@@ -105,9 +108,6 @@ def distance_bet_places(Collection_place_now,Collection_place_next):
 
     return distance_bet_places
 
-import csv
-from geopy.distance import geodesic
-from math import inf
 """"
 
 try exception 구문 별로 잘못됐을 때 보강 하는 거 짜기
@@ -257,7 +257,14 @@ if __name__ == "__main__":
 
                 print("done")
 
-            print(Full_course_candidates)
+            for i in range(5):
+                Full_course_candidates[i][1] = Full_course_candidates[i][1]/50  #3km/h => 50m/s로 움직이는 것. 이에 기반하여, 거리를 시간으로 변경함.
+            df = pd.DataFrame(Full_course_candidates, columns=['데이트 코스','예상 경과시간(도보 3km/h 기준)'], index=['1번째 추천', '2번째 추천','3번째 추천','4번째 추천','5번째 추천'])
+            max_len = df['데이트 코스'].str.len().max()
+            df["데이트 코스"] = df["데이트 코스"].apply(' -> '.join)
+            df['데이트 코스'] = df["데이트 코스"].apply(lambda x: x.ljust(max_len))
+
+            print(df)
             command = input("다시 시작하기를 원하신다면 '시작'을, 종료를 원하신다면 '종료'를 입력해주세요! \n ex)종료")
         else:
             print("한 개 이상의 장소를 입력하셔야합니다!")
