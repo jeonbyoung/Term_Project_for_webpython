@@ -256,8 +256,6 @@ if __name__ == "__main__":
         max_len = df['데이트 코스'].str.len().max()
         df["데이트 코스"] = df["데이트 코스"].apply(' -> '.join)
         df['데이트 코스'] = df["데이트 코스"].apply(lambda x: x.ljust(max_len))
-        html = df.to_html(classes='mystyle', index=False)
-        html = html.replace('<th>', '<th style="text-align: center;">', 1)
-
-        print(html)
+        print(df)
+        
         command = input("다시 시작하기를 원하신다면 '시작'을, 종료를 원하신다면 '종료'를 입력해주세요! \n ex)종료")
