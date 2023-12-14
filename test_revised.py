@@ -289,6 +289,7 @@ if __name__ == "__main__":
                     line.append(Course[0][idx].location)
                 rep = str(n)+"번째 추천 경로"
                 routes[rep] = line
+                n+=1
 
             colors = ['red', 'blue', 'green', 'orange', 'purple']
 
@@ -300,7 +301,7 @@ if __name__ == "__main__":
             for i, (name, route) in enumerate(routes.items()):
                 for j, coord in enumerate(route):
                     rep = f"{name} - {j+1}번째 위치"
-                    match separted_date[i]:
+                    match separted_date[j]:
                         case "식사":
                             rep += " (식당)"
 
@@ -342,6 +343,8 @@ if __name__ == "__main__":
                         req_detail = input("잘못 입력하셨습니다. 다시 입력해주세요! \n몇 번째 추천 경로의 위치 정보들을 더 자세히 보고 싶으신가요?(공백 없이 입력해주세요!) \n(2번째 추천 경로를 상세히 보고 싶다면) ex)2  \n-------------------  \n⋇종료를 원하시면, ex)종료 \n: ")
                         continue
                 
+                print(req_detail+"번째 추천 경로에 대한 추가 정보들입니다!")
+
                 idx = 1
                 for place in Details:
                     rep = "     "
@@ -362,6 +365,8 @@ if __name__ == "__main__":
 
                     idx += 1
 
+                print("-----------------------------------------------------------------\n")
+                
             command = input("다시 시작하기를 원하신다면 '시작'을, 종료를 원하신다면 '종료'를 입력해주세요! \n ex)종료")
         else:
             print("한 개 이상의 장소를 입력하셔야합니다!")
