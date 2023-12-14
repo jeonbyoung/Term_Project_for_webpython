@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8db137563de2cf9e9b9dfbab0eae2801 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_8db137563de2cf9e9b9dfbab0eae2801" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_8db137563de2cf9e9b9dfbab0eae2801 = L.map(
+                "map_8db137563de2cf9e9b9dfbab0eae2801",
+                {
+                    center: [37.605524, 127.133351],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 12,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f429d28673f995bce8ebfb3d2abadf4f = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_f429d28673f995bce8ebfb3d2abadf4f.addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            var poly_line_dbeebdfbb2adaad0f756f537bccc91e5 = L.polyline(
+                [[37.605524, 127.133351], [37.605997, 127.096909], [37.613449, 127.112606], [37.596501, 127.079157]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            var poly_line_02576afdc83b304f8a4012f5d3ca2478 = L.polyline(
+                [[37.767387, 126.849627], [37.776963, 126.885952], [37.743138, 126.819672], [37.612787, 126.824677]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            var poly_line_00343bfe2b8c37a4d5306353ce1de64a = L.polyline(
+                [[37.87251, 126.972419], [37.862557, 126.931794], [37.743138, 126.819672], [37.776963, 126.885952]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            var poly_line_61df0091884940f6fe33a7a81032a11c = L.polyline(
+                [[37.612974, 126.870029], [37.612787, 126.824677], [37.684016, 126.841607], [37.776963, 126.885952]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "orange", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            var poly_line_c4929b938b5a4cff3a15d78da0afb69e = L.polyline(
+                [[37.605524, 127.133351], [37.635007, 127.169308], [37.659806, 127.157281], [37.605997, 127.096909]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            var marker_e516a517f5a5cd332721ad9261f540d1 = L.marker(
+                [37.605524, 127.133351],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_e516a517f5a5cd332721ad9261f540d1.bindTooltip(
+                `<div>
+                     1번째 추천 경로 - 1번째 위치 (식당)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c0a9f3499f0983e987f9d5094d0450cc = L.marker(
+                [37.605997, 127.096909],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_c0a9f3499f0983e987f9d5094d0450cc.bindTooltip(
+                `<div>
+                     1번째 추천 경로 - 2번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2ce963065715cc4cc567915e03c07982 = L.marker(
+                [37.613449, 127.112606],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_2ce963065715cc4cc567915e03c07982.bindTooltip(
+                `<div>
+                     1번째 추천 경로 - 3번째 위치 (놀거리)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5cb1fee4f0049253d7f8f6e286b40e05 = L.marker(
+                [37.596501, 127.079157],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_5cb1fee4f0049253d7f8f6e286b40e05.bindTooltip(
+                `<div>
+                     1번째 추천 경로 - 4번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_5ebb1304091785b655daede2d6d158a2 = L.marker(
+                [37.767387, 126.849627],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_5ebb1304091785b655daede2d6d158a2.bindTooltip(
+                `<div>
+                     2번째 추천 경로 - 1번째 위치 (식당)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_921d73855cf5c5ea368c1b0ae603436a = L.marker(
+                [37.776963, 126.885952],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_921d73855cf5c5ea368c1b0ae603436a.bindTooltip(
+                `<div>
+                     2번째 추천 경로 - 2번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_146f4b64c229658a69a7e7d72502b9c1 = L.marker(
+                [37.743138, 126.819672],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_146f4b64c229658a69a7e7d72502b9c1.bindTooltip(
+                `<div>
+                     2번째 추천 경로 - 3번째 위치 (놀거리)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9ea9097009371d254e0bc7c81df6f26a = L.marker(
+                [37.612787, 126.824677],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_9ea9097009371d254e0bc7c81df6f26a.bindTooltip(
+                `<div>
+                     2번째 추천 경로 - 4번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_672eef7cc211ecaae68c075d09298dd6 = L.marker(
+                [37.87251, 126.972419],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_672eef7cc211ecaae68c075d09298dd6.bindTooltip(
+                `<div>
+                     3번째 추천 경로 - 1번째 위치 (식당)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_62a5f81752aa86dd33f5f9f875ed08f9 = L.marker(
+                [37.862557, 126.931794],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_62a5f81752aa86dd33f5f9f875ed08f9.bindTooltip(
+                `<div>
+                     3번째 추천 경로 - 2번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ceb5628eaf39a11b7236799d277b093f = L.marker(
+                [37.743138, 126.819672],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_ceb5628eaf39a11b7236799d277b093f.bindTooltip(
+                `<div>
+                     3번째 추천 경로 - 3번째 위치 (놀거리)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4dbcc047d02c73340cee45f0b1417764 = L.marker(
+                [37.776963, 126.885952],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_4dbcc047d02c73340cee45f0b1417764.bindTooltip(
+                `<div>
+                     3번째 추천 경로 - 4번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_770103d3bc2b7fdf605258fb93dac021 = L.marker(
+                [37.612974, 126.870029],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_770103d3bc2b7fdf605258fb93dac021.bindTooltip(
+                `<div>
+                     4번째 추천 경로 - 1번째 위치 (식당)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8d5d53655cbee50a7483ad2db0813ec5 = L.marker(
+                [37.612787, 126.824677],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_8d5d53655cbee50a7483ad2db0813ec5.bindTooltip(
+                `<div>
+                     4번째 추천 경로 - 2번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ef82b8656c5d6031c7d9d5b024a33ff7 = L.marker(
+                [37.684016, 126.841607],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_ef82b8656c5d6031c7d9d5b024a33ff7.bindTooltip(
+                `<div>
+                     4번째 추천 경로 - 3번째 위치 (놀거리)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4df9f32bf7d6bc4e85624134202762b8 = L.marker(
+                [37.776963, 126.885952],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_4df9f32bf7d6bc4e85624134202762b8.bindTooltip(
+                `<div>
+                     4번째 추천 경로 - 4번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_08816c4fa864b437f7f937f64c15bc99 = L.marker(
+                [37.605524, 127.133351],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_08816c4fa864b437f7f937f64c15bc99.bindTooltip(
+                `<div>
+                     5번째 추천 경로 - 1번째 위치 (식당)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c9f770e25d9b0364a2022a6eb55cdad1 = L.marker(
+                [37.635007, 127.169308],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_c9f770e25d9b0364a2022a6eb55cdad1.bindTooltip(
+                `<div>
+                     5번째 추천 경로 - 2번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d5ba01372d8678a8a41adeaf97b90744 = L.marker(
+                [37.659806, 127.157281],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_d5ba01372d8678a8a41adeaf97b90744.bindTooltip(
+                `<div>
+                     5번째 추천 경로 - 3번째 위치 (놀거리)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ee3bfd7a31905438bd0ab1c2c50e34ff = L.marker(
+                [37.605997, 127.096909],
+                {}
+            ).addTo(map_8db137563de2cf9e9b9dfbab0eae2801);
+        
+    
+            marker_ee3bfd7a31905438bd0ab1c2c50e34ff.bindTooltip(
+                `<div>
+                     5번째 추천 경로 - 4번째 위치 (카페)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>

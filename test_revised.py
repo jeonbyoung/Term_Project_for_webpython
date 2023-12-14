@@ -2,6 +2,7 @@ import pandas as pd
 import csv
 from geopy.distance import geodesic
 import folium
+import webbrowser
 
 class Place:
 
@@ -101,11 +102,7 @@ if __name__ == "__main__":
         file_path_food = 'Place_food.csv'
         file_path_cafe = 'Place_cafe.csv'
         file_path_doing_fun = 'Place_doing_fun.csv'
-
-
-        food_type = input("원하는 음식 종류를 입력해주세요.(space bar가 포함되면 안 됩니다.)(선택지 : 한식, 양식, 중식, 일식)\nex)양식")
-        price_limit = int(input("음식 평균 가격 상한선을 입력해주세요(space bar가 포함되면 안 됩니다.)\nex)30000"))
-        
+      
         Restaurants = list()
 
         with open(file_path_food, newline='') as csvfile:
@@ -267,7 +264,7 @@ if __name__ == "__main__":
 
             colors = ['red', 'blue', 'green', 'orange', 'purple']
 
-            M = folium.Map(location=(37.557434302, 126.926960224 ), zoom_start=6)  #홍대입구역을 기준으로 함. csv파일 속 위치들도 홍대 근처로 잡을 예정
+            M = folium.Map(location=routes['1번째 추천 경로'][0], zoom_start=9)  #1번째 추천 경로의 첫 번째 위치를 기준으로 함.
 
             for (name, route), color in zip(routes.items(), colors):
                 folium.PolyLine(locations=route, color = color).add_to(M)
@@ -288,8 +285,9 @@ if __name__ == "__main__":
                     folium.Marker(location=coord, tooltip=rep).add_to(M)
 
 
-            M  # map API 사용하여 위치 정보들과 경로들 시각화함.
-            
+            M.save("map.html")  # map API 사용하여 위치 정보들과 경로들 시각화함.
+            webbrowser.open("map.html")
+
             req_detail = "0"
             
             while(req_detail != "종료"):
