@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import csv
+import folium
 
 class Place:
 
@@ -250,12 +251,115 @@ if __name__ == "__main__":
                                         Full_course_candidates[index][0].append(CANDIDATE[0][1])
                                         Full_course_candidates[index][1] += CANDIDATE[1]
 
-        for i in range(5):
-            Full_course_candidates[i][1] = Full_course_candidates[i][1]/50  #3km/h => 50m/s로 움직이는 것. 이에 기반하여, 거리를 시간으로 변경함.
-        df = pd.DataFrame(Full_course_candidates, columns=['데이트 코스','도보 3km/h로 \n이동 시, 총 경과시간'])
+
+        for Course in Full_course_candidates:
+            Course[1] = Course[1]/50  #3km/h => 50m/s로 움직이는 것. 이에 기반하여, 거리를 시간으로 변경함.
+
+
+        df = pd.DataFrame(Full_course_candidates, columns=['데이트 코스','총 경과시간(분)(3km/h기준)'])
         max_len = df['데이트 코스'].str.len().max()
         df["데이트 코스"] = df["데이트 코스"].apply(' -> '.join)
         df['데이트 코스'] = df["데이트 코스"].apply(lambda x: x.ljust(max_len))
         print(df)
+
+
+        routes = dict()
+        n = 1
+        for Course in Full_course_candidates:
+            line = list()
+            for idx in range(len(Course[0])):
+                match separted_date[idx]:
+                    case "식사":
+                        for restaurant in Restaurants:
+                            if restaurant.name == Course[0][idx]:
+                                Course[0][idx] = restaurant
+
+                    case "카페":
+                        for cafe in Cafes:
+                            if cafe.name == Course[0][idx]:
+                                Course[0][idx] = cafe
+
+                    case "놀거리":
+                        for doing_fun in Doing_funs:
+                            if doing_fun.name == Course[0][idx]:
+                                Course[0][idx] = doing_fun
+
+                line.append(Course[0][idx].location)
+            rep = str(n)+"번째 추천 경로"
+            routes[rep] = line
+
+        colors = ['red', 'blue', 'green', 'orange', 'purple']
+
+        MAP = folium.Map(location=(37.557434302, 126.926960224 ), zoom_start=6)  #홍대입구역을 기준으로 함. csv파일 속 위치들도 홍대 근처로 잡을 예정
+
+        for (name, route), color in zip(routes.items(), colors):
+            folium.PolyLine(locations=route, color = color).add_to(MAP)
+
+        for i, (name, route) in enumerate(routes.items()):
+            for j, coord in enumerate(route):
+                rep = f"{name} - {j+1}번째 위치"
+                match separted_date[i]:
+                    case "식사":
+                        rep += " (식당)"
+
+                    case "카페":
+                        rep += " (카페)"
+
+                    case "놀거리":
+                        rep += " (놀거리)"
+
+                folium.Marker(location=coord, tooltip=rep)
+
+
+        MAP  # map API 사용하여 위치 정보들과 경로들 시각화함.
         
-        command = input("다시 시작하기를 원하신다면 '시작'을, 종료를 원하신다면 '종료'를 입력해주세요! \n ex)종료")
+        req_detail = "0"
+        
+        while(req_detail != "종료"):
+            req_detail = input("몇 번째 추천 경로의 위치 정보들을 더 자세히 보고 싶으신가요?(공백 없이 입력해주세요!) \n(2번째 추천 경로를 상세히 보고 싶다면) ex)2  \n-------------------  \n⋇종료를 원하시면, ex)종료 \n: ")
+            match req_detail:
+                case "1":
+                    Details = Full_course_candidates[int(req_detail)][0]
+
+                case "2":
+                    Details = Full_course_candidates[int(req_detail)][0]
+
+                case "3":
+                    Details = Full_course_candidates[int(req_detail)][0]
+
+                case "4":
+                    Details = Full_course_candidates[int(req_detail)][0]
+
+                case "5":
+                    Details = Full_course_candidates[int(req_detail)][0]
+
+                case _:
+                    req_detail = input("잘못 입력하셨습니다. 다시 입력해주세요! \n몇 번째 추천 경로의 위치 정보들을 더 자세히 보고 싶으신가요?(공백 없이 입력해주세요!) \n(2번째 추천 경로를 상세히 보고 싶다면) ex)2  \n-------------------  \n⋇종료를 원하시면, ex)종료 \n: ")
+            
+            idx = 1
+            for place in Details:
+                rep = "     "
+                rep += str(idx)+"번째 위치 정보 : "+"이름 : {:}, 분류 : {:}, 평점 : {:}, 운영시간 : {:}".format(place.name, place.type, place.rating, place.operating_tiem)
+                match place.type:
+                    case "식당":
+                        rep += "음식 종류 : {:}, 대표메뉴 : {:}, 평균가 : {:}".format(place.types_of_foods, place.rep_menu, place.avg_price)
+
+                    case "카페":
+                        rep += "커피 말고 마실 만한 메뉴가 있는 지 : {:}, 대표메뉴 : {:}".format(place.No_coffee, place.rep_menu)
+
+                    case "놀거리":
+                        rep += "공연 여부 : {:}, 공연 정보 : {:}".format(place.perforamance_available, place.entertainments_info)
+                
+
+                print(rep)
+                print()
+
+                idx += 1
+
+
+
+
+        
+
+        
+        command = input("다시 시작하기를 원하신다면 '시작'을, 종료를 원하신다면 '종료'를 입력해주세요! \n ex)종료 \n: ")

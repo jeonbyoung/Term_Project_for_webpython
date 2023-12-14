@@ -5,19 +5,18 @@ import folium
 
 class Place:
 
-    def __init__(self, name, location, type, rating, operating_time , parking_available):
+    def __init__(self, name, location, type, rating, operating_time):
         self.name = name
         self.location = location
         self.type = type
         self.rating = rating
         self.operating_tiem = operating_time
-        self.parking_available = parking_available
 
 
 class Restaurant(Place):
 
-    def __init__(self, name, location, type, rating, operating_time , parking_available, type_of_foods, rep_menu, avg_price):
-        super().__init__(name, location, type, rating, operating_time , parking_available)
+    def __init__(self, name, location, type, rating, operating_time, type_of_foods, rep_menu, avg_price):
+        super().__init__(name, location, type, rating, operating_time)
         self.types_of_foods = type_of_foods
         self.rep_menu = rep_menu
         self.avg_price = avg_price
@@ -26,38 +25,19 @@ class Restaurant(Place):
 
 class Cafe(Place):
 
-    def __init__(self, name, location, type, rating, operating_time ,No_coffee, parking_available, rep_menu):
-        super().__init__(name, location, type, rating, operating_time , parking_available)
-        self.No_coffee = No_coffee
+    def __init__(self, name, location, type, rating, operating_time,no_coffee_possible,rep_menu):
+        super().__init__(name, location, type, rating, operating_time)
+        self.no_coffee_possible = no_coffee_possible
         self.rep_menu = rep_menu
 
 
 class Entertainments(Place):
 
-    def __init__(self, name, location, type, rating, operating_time , parking_available, performace_available, entertainments_info):
-        super().__init__(name, location, type, rating, operating_time , parking_available)
+    def __init__(self, name, location, type, rating, operating_time, performace_available, entertainments_info):
+        super().__init__(name, location, type, rating, operating_time)
         self.perforamance_available = performace_available
         self.entertainments_info = entertainments_info
         
-
-    
-
-class Entertainment_Info:
-
-    def __init__(self, timetable_info, price, for_inquiry):
-        self.timetalbe = timetable_info
-        self.price = price
-        self.for_inquiry = for_inquiry
-
-    def possible_time():
-        file_path = 'test_for_term_project.csv'
-
-        with open(file_path,newline = '') as csvfile:
-            csv_reader = csv.reader(csvfile)
-
-        for row in csv_reader:
-            print(row)
-            
 
 def make_Full_course(i,distance_bet_places,Full_course_candidates):
     l = list()
@@ -125,6 +105,7 @@ if __name__ == "__main__":
 
         food_type = input("원하는 음식 종류를 입력해주세요.(space bar가 포함되면 안 됩니다.)(선택지 : 한식, 양식, 중식, 일식)\nex)양식")
         price_limit = int(input("음식 평균 가격 상한선을 입력해주세요(space bar가 포함되면 안 됩니다.)\nex)30000"))
+        
         Restaurants = list()
 
         with open(file_path_food, newline='') as csvfile:
@@ -133,16 +114,9 @@ if __name__ == "__main__":
             for info in Collection_restaurant: 
                 info[1] = info[1].split(',')
                 info[1] = (float(info[1][0]), float(info[1][1]))
-                Restaurants.append(Restaurant(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7],info[8]))
+                Restaurants.append(Restaurant(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7]))
                     
         
-        
-
-        p = input("주차 필요하신가요?(선택지 : Yes or No)\nex)Yes")
-        if p == "Yes":
-            parking_available = True
-        else:
-            parking_available = False
         Doing_funs = list()
 
         with open(file_path_doing_fun, newline='') as csvfile:
@@ -151,7 +125,7 @@ if __name__ == "__main__":
             for info in Collection_doing_fun:
                 info[1] = info[1].split(',')
                 info[1] = (float(info[1][0]), float(info[1][1]))
-                Doing_funs.append(Entertainments(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7]))
+                Doing_funs.append(Entertainments(info[0],info[1],info[2],info[3],info[4],info[5],info[6]))
 
 
         p = input("커피 못 드시나요?(선택지 : Yes or No)\nex)Yes")
@@ -159,6 +133,7 @@ if __name__ == "__main__":
             coffee = False
         else:
             coffee = True
+        
         Cafes = list()
 
         with open(file_path_cafe, newline='') as csvfile:
@@ -167,9 +142,8 @@ if __name__ == "__main__":
             for info in Collection_cafe:
                 info[1] = info[1].split(',')
                 info[1] = (float(info[1][0]), float(info[1][1]))
-                Cafes.append(Cafe(info[0],info[1],info[2],info[3],info[4],info[5],info[6],info[7]))
+                Cafes.append(Cafe(info[0],info[1],info[2],info[3],info[4],info[5],info[6]))
 
-        # Full_course_candidates = [ [["A","a"],inf],[["B","b"],inf],[["C","c"],inf],[["D","d"],inf],[["E","e"],inf]]
         Full_course_candidates =list()
         num = len(separted_date)
         
@@ -293,10 +267,10 @@ if __name__ == "__main__":
 
             colors = ['red', 'blue', 'green', 'orange', 'purple']
 
-            MAP = folium.Map(location=(37.557434302, 126.926960224 ), zoom_start=6)  #홍대입구역을 기준으로 함. csv파일 속 위치들도 홍대 근처로 잡을 예정
+            M = folium.Map(location=(37.557434302, 126.926960224 ), zoom_start=6)  #홍대입구역을 기준으로 함. csv파일 속 위치들도 홍대 근처로 잡을 예정
 
             for (name, route), color in zip(routes.items(), colors):
-                folium.PolyLine(locations=route, color = color).add_to(MAP)
+                folium.PolyLine(locations=route, color = color).add_to(M)
 
             for i, (name, route) in enumerate(routes.items()):
                 for j, coord in enumerate(route):
@@ -311,10 +285,10 @@ if __name__ == "__main__":
                         case "놀거리":
                             rep += " (놀거리)"
 
-                    folium.Marker(location=coord, tooltip=rep)
+                    folium.Marker(location=coord, tooltip=rep).add_to(M)
 
 
-            MAP  # map API 사용하여 위치 정보들과 경로들 시각화함.
+            M  # map API 사용하여 위치 정보들과 경로들 시각화함.
             
             req_detail = "0"
             
@@ -343,7 +317,9 @@ if __name__ == "__main__":
                         req_detail = input("잘못 입력하셨습니다. 다시 입력해주세요! \n몇 번째 추천 경로의 위치 정보들을 더 자세히 보고 싶으신가요?(공백 없이 입력해주세요!) \n(2번째 추천 경로를 상세히 보고 싶다면) ex)2  \n-------------------  \n⋇종료를 원하시면, ex)종료 \n: ")
                         continue
                 
+                print("-----------------------------------------------------")
                 print(req_detail+"번째 추천 경로에 대한 추가 정보들입니다!")
+                print("-----------------------------------------------------\n")
 
                 idx = 1
                 for place in Details:
@@ -354,7 +330,7 @@ if __name__ == "__main__":
                             rep += "음식 종류 : {:}, 대표메뉴 : {:}, 평균가 : {:}".format(place.types_of_foods, place.rep_menu, place.avg_price)
 
                         case "카페":
-                            rep += "커피 말고 마실 만한 메뉴가 있는 지 : {:}, 대표메뉴 : {:}".format(place.No_coffee, place.rep_menu)
+                            rep += "커피 말고 마실 만한 메뉴가 있는 지 : {:}, 대표메뉴 : {:}".format(place.no_coffee_possible, place.rep_menu)
 
                         case "놀거리":
                             rep += "공연 여부 : {:}, 공연 정보 : {:}".format(place.perforamance_available, place.entertainments_info)
@@ -365,7 +341,8 @@ if __name__ == "__main__":
 
                     idx += 1
 
-                print("-----------------------------------------------------------------\n")
+                print("-"*100)
+                print()
                 
             command = input("다시 시작하기를 원하신다면 '시작'을, 종료를 원하신다면 '종료'를 입력해주세요! \n ex)종료")
         else:
