@@ -1,0 +1,27 @@
+<!-- result.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommended Date Course</title>
+</head>
+<body>
+    <h1>Recommended Date Course</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date Course</th>
+                <th>Estimated Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for index, row in result.iterrows() %}
+            <tr>
+                <td>{{ row['데이트 코스'] }}</td>
+                <td>{{ row['예상 경과시간(도보 3km/h 기준)'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

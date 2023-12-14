@@ -1,0 +1,37 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Date Course Recommender</title>
+</head>
+<body>
+    <h1>Date Course Recommender</h1>
+    <form method="post" action="/">
+
+        <label for="date_course">"원하는 데이트 코스를 입력해주세요.(space bar가 포함되면 안 됩니다.)(선택지 : 식사, 카페, 놀거리)\n (Ex) 식사->카페->놀거리->카페":</label>
+        <input type="text" id="date_course" name="date_course" required>
+        <br><br>
+
+        <!-- 음식 종류 입력 폼 -->
+        <label for="food_type">원하는 음식 종류를 입력해주세요.(space bar가 포함되면 안 됩니다.)(선택지 : 한식, 양식, 중식, 일식)\n(ex)양식:</label>
+        <input type="text" id="food_type" name="food_type" required>
+        <br><br>
+
+        <!-- 음식 평균 가격 입력 폼 -->
+        <label for="price_limit">음식 평균 가격 상한선을 입력해주세요(space bar가 포함되면 안 됩니다.)\n(ex)30000:</label>
+        <input type="number" id="price_limit" name="price_limit" required>
+        <br><br>
+
+        <!-- 주차 필요 여부 입력 폼 -->
+        <label for="parking_needed">주차 필요하신가요?(선택지 : Yes or No)\n(ex)Yes:</label>
+        <select id="parking_needed" name="parking_needed" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <br><br>
+
+        <input type="submit" value="Recommend">
+    </form>
+</body>
+</html>
