@@ -74,6 +74,7 @@ def make_Full_course(i,distance_bet_places,Full_course_candidates):
                 if sub_path[0][0]==path[0][-1] and sub_path[0][1] not in path[0]:
                     path[0].append(sub_path[0][1])
                     path[1] += sub_path[1]
+                    break
             
     return Full_course_candidates
 
@@ -329,6 +330,8 @@ if __name__ == "__main__":
 
                         case "카페":
                             rep += "커피 말고 마실 만한 메뉴가 있는 지 : {:}, 대표메뉴 : {:}".format(place.no_coffee_possible, place.rep_menu)
+                            if not coffee and place.no_coffee_possible == "O":
+                                rep = rep[:13]+"(Recommend!)"+rep[13:]
 
                         case "놀거리":
                             rep += "공연 여부 : {:}, 공연 정보 : {:}".format(place.perforamance_available, place.entertainments_info)
